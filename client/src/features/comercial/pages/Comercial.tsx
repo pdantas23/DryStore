@@ -47,7 +47,7 @@ function makeId() {
 }
 
 function extractPath(url: string): string {
-  const marker = "/object/public/products_drystore/";
+  const marker = "/object/public/images-drystore/";
   const idx = url.indexOf(marker);
   return idx >= 0 ? url.slice(idx + marker.length) : url;
 }

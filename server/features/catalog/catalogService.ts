@@ -8,7 +8,7 @@ import type {
   ListProductsResponse,
 } from "./catalogTypes";
 
-const STORAGE_BUCKET = "products_drystore";
+const STORAGE_BUCKET = "images-drystore";
 const TABLE          = "produtos_drystore";
 const TABLE_IMGS     = "produtos_imagens_drystore";
 
@@ -72,7 +72,7 @@ async function removeImagem(
   path: string
 ): Promise<void> {
   const { error } = await supabase.storage
-    .from("products_drystore")
+    .from("images-drystore")
     .remove([path]);
 
   if (error) throw new Error(error.message);

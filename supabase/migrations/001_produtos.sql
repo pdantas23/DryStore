@@ -102,12 +102,4 @@ CREATE INDEX IF NOT EXISTS idx_produtos_ativo    ON public.produtos (ativo);
 CREATE INDEX IF NOT EXISTS idx_produtos_promocao ON public.produtos (promocao);
 CREATE INDEX IF NOT EXISTS idx_produtos_created  ON public.produtos (created_at DESC);
 
--- 7. Dados de exemplo (remova se não quiser dados iniciais)
--- ============================================================
-INSERT INTO public.produtos (nome, descricao, preco, categoria, promocao, ativo) VALUES
-  ('Case iPhone 15 Pro Premium',  'Case de couro legítimo com proteção militar para iPhone 15 Pro', 129.90, 'cases',            false, true),
-  ('Case Samsung S24 Ultra',      'Proteção extrema com suporte para caneta S-Pen',                  99.90, 'cases',            true,  true),
-  ('Película 3D Privacidade',     'Película de vidro temperado com filtro de privacidade 360°',       49.90, 'acessórios',      false, true),
-  ('Carregador MagSafe 15W',      'Carregador magnético wireless de alta velocidade',                 89.90, 'acessórios',      true,  true),
-  ('Case Personalizado',          'Crie seu case com foto ou arte exclusiva',                         79.90, 'personalizáveis', false, true)
-ON CONFLICT DO NOTHING;
+
