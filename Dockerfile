@@ -1,21 +1,27 @@
 # ─── Build stage ─────────────────────────────
-FROM node:20 AS builder
+FROM node:20-alpine AS builder
+
+# Instala pnpm
+RUN corepack enable && corepack prepare pnpm@10.4.1 --activate
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install
+# Copia lockfile e package.json
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
 COPY . .
-RUN npm run build
+RUN pnpm run build
 
 # ─── Runtime stage ───────────────────────────
-FROM node:20
+FROM node:20-alpine
+
+RUN corepack enable && corepack prepare pnpm@10.4.1 --activate
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install --omit=dev
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --prod --frozen-lockfile
 
 COPY --from=builder /app/dist ./dist
 
