@@ -1,6 +1,6 @@
 import { Router } from "express";
 import multer from "multer";
-import { requireAuth } from "../../middlewares/requireAuth";
+import { requireAuth } from "../../middlewares/requireAuth.js";
 import {
   listProductsService,
   getProductByIdService,
@@ -8,7 +8,7 @@ import {
   updateProductService,
   uploadProductImageService,
   deleteProductImageService,
-} from "./catalogService";
+} from "./catalogService.js";
 
 const router = Router();
 

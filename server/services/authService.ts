@@ -1,7 +1,7 @@
 import {
   createSupabaseAdminClient,
   createSupabaseServerClient,
-} from "../lib/supabase";
+} from "../lib/supabase.js";
 
 // ─── Tipos exportados ─────────────────────────────────────────────────────────
 export type AppRole = "admin" | "comercial";

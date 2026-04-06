@@ -2,8 +2,8 @@ import { Router } from "express";
 import {
   getUserFromAccessToken,
   loginWithEmailAndPassword,
-} from "../services/authService";
-import { AUTH_COOKIE_ACCESS, AUTH_COOKIE_REFRESH } from "../../shared/const";
+} from "../services/authService.js";
+import { AUTH_COOKIE_ACCESS, AUTH_COOKIE_REFRESH } from "../../shared/const.js";
 
 const router = Router();
 

@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { getUserFromAccessToken, type AppRole } from "../services/authService";
+import { getUserFromAccessToken, type AppRole } from "../services/authService.js";
 
 // Estende o tipo Request do Express para incluir dados do usuário autenticado
 declare global {

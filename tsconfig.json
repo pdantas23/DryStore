@@ -1,23 +1,13 @@
 {
-  "include": ["client/src/**/*", "server/services/leadService.ts"],
-  "exclude": ["node_modules", "build", "dist"],
+  "include": ["server/**/*"],
+  "exclude": ["client", "node_modules", "dist"],
   "compilerOptions": {
     "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
+    "module": "Node16",
+    "moduleResolution": "node16",
+    "types": ["node"],
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "strict": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./client/src/*"]
-    }
+    "skipLibCheck": true
   }
 }

@@ -1,19 +1,22 @@
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
-import path from "node:path";
+import path from "path";
 import { defineConfig } from "vite";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      "@": path.resolve(import.meta.dirname, "client", "src"),
+      "@": path.resolve(__dirname, "client", "src"),
     },
   },
-  root: path.resolve(import.meta.dirname, "client"),
-  envDir: import.meta.dirname,
+  root: path.resolve(__dirname, "client"),
+  envDir: __dirname,
   build: {
-    outDir: path.resolve(import.meta.dirname, "dist"),
+    outDir: path.resolve(__dirname, "dist"),
     emptyOutDir: true,
   },
   server: {
@@ -24,7 +27,7 @@ export default defineConfig({
         target: "http://localhost:3001",
         changeOrigin: true,
       },
-      "/auth": {                          // ← adicione isto
+      "/auth": {
         target: "http://localhost:3001",
         changeOrigin: true,
       },

@@ -3,8 +3,8 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-import authRouter    from "./routes/authRoutes";
-import catalogRouter from "./features/catalog/catalogRoutes";
+import authRouter    from "./routes/authRoutes.js";
+import catalogRouter from "./features/catalog/catalogRoutes.js";
 
 const app = express();
 

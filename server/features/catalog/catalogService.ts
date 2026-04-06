@@ -1,4 +1,4 @@
-import { createSupabaseAdminClient } from "../../lib/supabase";
+import { createSupabaseAdminClient } from "../../lib/supabase.js";
 import type {
   Product,
   ProductImage,
@@ -6,7 +6,7 @@ import type {
   UpdateProductPayload,
   ListProductsParams,
   ListProductsResponse,
-} from "./catalogTypes";
+} from "./catalogTypes.js";
 
 const STORAGE_BUCKET = "images-drystore";
 const TABLE          = "produtos_drystore";
