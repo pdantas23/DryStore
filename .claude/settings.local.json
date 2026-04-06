@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find '/Users/philip/Desktop/RoyalHub/Landing Pages/Dry Store/dry_store_final/' -not -path */node_modules/* -type f)",
+      "Bash(npm run:*)"
+    ]
+  }
+}
