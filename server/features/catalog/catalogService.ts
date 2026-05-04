@@ -170,6 +170,44 @@ export async function createProductService(payload: CreateProductPayload): Promi
   } as Product;
 }
 
+// ─── Deletar produto ──────────────────────────────────────────────────────────
+export async function deleteProductService(id: string): Promise<void> {
+  const supabase = createSupabaseAdminClient();
+
+  // 1. Busca a imagem principal do produto
+  const { data: product, error: productError } = await supabase
+    .from(TABLE)
+    .select("imagem_url")
+    .eq("id", id)
+    .single();
+
+  if (productError) throw new Error(productError.message);
+
+  // 2. Busca imagens adicionais
+  const { data: imagens, error: imagensError } = await supabase
+    .from(TABLE_IMGS)
+    .select("path")
+    .eq("produto_id", id);
+
+  if (imagensError) throw new Error(imagensError.message);
+
+  // 3. Remove arquivos do Storage (não lança erro se falhar — evita bloquear a exclusão)
+  const storagePaths: string[] = [];
+  if (product?.imagem_url) storagePaths.push(product.imagem_url);
+  for (const img of imagens ?? []) storagePaths.push(img.path);
+  if (storagePaths.length > 0) {
+    await supabase.storage.from(STORAGE_BUCKET).remove(storagePaths);
+  }
+
+  // 4. Remove registros de imagens adicionais
+  const { error: deleteImgsError } = await supabase.from(TABLE_IMGS).delete().eq("produto_id", id);
+  if (deleteImgsError) throw new Error(deleteImgsError.message);
+
+  // 5. Remove o produto
+  const { error: deleteError } = await supabase.from(TABLE).delete().eq("id", id);
+  if (deleteError) throw new Error(deleteError.message);
+}
+
 // ─── Atualizar produto ────────────────────────────────────────────────────────
 export async function updateProductService(id: string, payload: UpdateProductPayload): Promise<Product> {
   const supabase    = createSupabaseAdminClient();

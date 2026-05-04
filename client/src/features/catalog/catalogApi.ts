@@ -68,6 +68,19 @@ export async function createProduct(payload: CreateProductPayload): Promise<Prod
   return data as Product;
 }
 
+// ─── Deletar produto ──────────────────────────────────────────────────────────
+export async function deleteProduct(id: string): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/api/products/${id}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    throw new Error((data as { message?: string }).message || "Erro ao excluir produto.");
+  }
+}
+
 // ─── Atualizar produto ────────────────────────────────────────────────────────
 export async function updateProduct(id: string, payload: UpdateProductPayload): Promise<Product> {
   const response = await fetch(`${API_BASE_URL}/api/products/${id}`, {

@@ -6,6 +6,7 @@ import {
   getProductByIdService,
   createProductService,
   updateProductService,
+  deleteProductService,
   uploadProductImageService,
   deleteProductImageService,
 } from "./catalogService.js";
@@ -104,6 +105,7 @@ router.patch("/:id", requireAuth(["admin", "comercial"]), async (req, res) => {
 });
 
 // ─── DELETE /api/products/delete-image ───────────────────────────────────────
+// IMPORTANTE: rota literal deve vir ANTES de /:id para não ser interceptada
 router.delete("/delete-image", requireAuth(["admin", "comercial"]), async (req, res) => {
   try {
     const { path } = req.body;
@@ -119,6 +121,17 @@ router.delete("/delete-image", requireAuth(["admin", "comercial"]), async (req, 
     return res.status(500).json({
       message: error instanceof Error ? error.message : "Erro ao remover imagem.",
     });
+  }
+});
+
+// ─── DELETE /api/products/:id ─────────────────────────────────────────────────
+router.delete("/:id", requireAuth(["admin", "comercial"]), async (req, res) => {
+  try {
+    await deleteProductService(req.params.id as string);
+    return res.status(204).send();
+  } catch (error) {
+    console.error("Erro ao deletar produto:", error);
+    return res.status(500).json({ message: error instanceof Error ? error.message : "Erro ao deletar produto." });
   }
 });
 

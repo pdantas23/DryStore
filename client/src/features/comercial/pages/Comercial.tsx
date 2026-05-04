@@ -5,10 +5,11 @@ import {
   listProducts,
   createProduct,
   updateProduct,
+  deleteProduct,
   uploadProductImage,
   deleteProductImage,
 } from "@/features/catalog/catalogApi";
-import { Plus, Pencil, Package, X, ImagePlus, Loader2, Star, Tag, CheckCircle2, ChevronDown} from "lucide-react";
+import { Plus, Pencil, Trash2, Package, X, ImagePlus, Loader2, Star, Tag, CheckCircle2, ChevronDown} from "lucide-react";
 import type { Product, CreateProductPayload } from "@/features/catalog/catalogTypes";
 import { PRODUCT_CATEGORIES } from "@/features/catalog/catalogTypes";
 
@@ -60,6 +61,7 @@ export default function Comercial() {
   const [isLoading, setIsLoading]   = useState(false);
   const [pageError, setPageError]   = useState("");
 
+  const [deletingId, setDeletingId]         = useState<string | null>(null);
   const [modalOpen, setModalOpen]           = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [formLoading, setFormLoading]       = useState(false);
@@ -81,6 +83,19 @@ export default function Comercial() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [modalOpen]);
+
+  async function handleDelete(product: Product) {
+    if (!window.confirm(`Excluir "${product.nome}"? Esta ação não pode ser desfeita.`)) return;
+    setDeletingId(product.id);
+    try {
+      await deleteProduct(product.id);
+      setProducts((prev) => prev.filter((p) => p.id !== product.id));
+    } catch (err) {
+      setPageError(err instanceof Error ? err.message : "Erro ao excluir produto.");
+    } finally {
+      setDeletingId(null);
+    }
+  }
 
   async function loadProducts() {
     setIsLoading(true);
@@ -339,14 +354,28 @@ export default function Comercial() {
                     </div>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => openEdit(product)}
-                    className="flex shrink-0 items-center gap-1.5 rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-50"
-                  >
-                    <Pencil className="h-3.5 w-3.5" />
-                    Editar
-                  </button>
+                  <div className="flex shrink-0 items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => openEdit(product)}
+                      className="flex items-center gap-1.5 rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-slate-50"
+                    >
+                      <Pencil className="h-3.5 w-3.5" />
+                      Editar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(product)}
+                      disabled={deletingId === product.id}
+                      className="flex items-center gap-1.5 rounded-lg border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      {deletingId === product.id
+                        ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                        : <Trash2 className="h-3.5 w-3.5" />
+                      }
+                      Excluir
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

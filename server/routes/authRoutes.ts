@@ -79,14 +79,14 @@ router.get("/me", async (req, res) => {
     const accessToken = req.cookies?.[AUTH_COOKIE_ACCESS];
 
     if (!accessToken) {
-      return res.status(401).json({ authenticated: false, error: "Não autenticado." });
+      return res.status(200).json({ authenticated: false, user: null });
     }
 
     const result = await getUserFromAccessToken(accessToken);
 
     if (!result?.user) {
       clearAuthCookies(res);
-      return res.status(401).json({ authenticated: false, error: "Sessão inválida ou expirada." });
+      return res.status(200).json({ authenticated: false, user: null });
     }
 
     return res.json({
